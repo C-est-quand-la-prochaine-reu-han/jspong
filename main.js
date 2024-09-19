@@ -139,7 +139,63 @@ async function get_all_tournaments_of_user(id) {
     return data;
 }
 
-get_all_matches()
+
+async function get_all_matches_of_tournament(id) {
+    let data = await get_all_matches();
+    let matches = [];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].tournament === null)
+            continue;
+        if (data[i].tournament === id) {
+            matches.push(data[i]);
+        }
+    }
+    if (debug)
+        console.log(data);
+    return data;
+}
+
+async function get_all_users_of_tournament(id) {
+    let data = await get_all_matches_of_tournament(id);
+    let users = [];
+    for (let i = 0; i < data.length; i++) {
+        let user1 = await get_user_by_id(data[i].player1);
+        let user2 = await get_user_by_id(data[i].player2);
+        if (!users.includes(user1))
+            users.push(user1);
+        if (!users.includes(user2))
+            users.push(user2);
+    }
+    if (debug)
+        console.log(data);
+    return data;
+}
+
+async function get_all_users_of_match(id) {
+    let data = await get_match_by_id(id);
+    let user1 = await get_user_by_id(data.player1);
+    let user2 = await get_user_by_id(data.player2);
+    if (debug)
+        console.log(data);
+    return [user1, user2];
+}
+
+async function get_all_matches_of_user(id) {
+    let data = await get_all_matches();
+    let matches = [];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].player1 === id || data[i].player2 === id) {
+            matches.push(data[i]);
+        }
+    }
+    if (debug)
+        console.log(data);
+    return data;
+}
+
+
+
+
 
 
 
