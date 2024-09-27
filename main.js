@@ -1,15 +1,14 @@
-token = "9e81fbfd3c32255e0393b64ecd6f76e5267a0262"
-path = "http://localhost:8000/appong/api/"
-debug = true
+let token = "9e81fbfd3c32255e0393b64ecd6f76e5267a0262"
+let path = "http://localhost:8000/appong/api/"
+let debug = true
 
 
-headers = {
+let headers = {
     'Authorization': 'Token ' + token,
     'Content-Type':'application/json'
 }
 
-
-async function get() {
+export async function get() {
     let response = await fetch(path, { headers : headers });
     let data = await response.json();
     if (debug)
@@ -17,7 +16,7 @@ async function get() {
     return data;
 }
 
-async function get_all_users() {
+export async function get_all_users() {
     let response = await fetch(path + 'user/', { headers : headers });
     let data = await response.json();
     if (debug)
@@ -25,7 +24,7 @@ async function get_all_users() {
     return data;
 }
 
-async function get_all_tournament() {
+export async function get_all_tournament() {
     let response = await fetch(path + 'tournament/', { headers : headers });
     let data = await response.json();
     if (debug)
@@ -33,7 +32,7 @@ async function get_all_tournament() {
     return data;
 }
 
-async function get_number_of_matches() {
+export async function get_number_of_matches() {
     let response = await fetch(path + 'match/', { headers : headers });
     let data = await response.json();
     if (debug)
@@ -42,7 +41,7 @@ async function get_number_of_matches() {
 }
 
 
-async function get_number_of_users() {
+export async function get_number_of_users() {
     let response = await fetch(path + 'user/', { headers : headers });
     let data = await response.json();
     if (debug)
@@ -50,7 +49,7 @@ async function get_number_of_users() {
     return data.length;
 }
 
-async function get_number_of_tournaments() {
+export async function get_number_of_tournaments() {
     let response = await fetch(path + 'tournament/', { headers : headers });
     let data = await response.json();
     if (debug)
@@ -58,7 +57,7 @@ async function get_number_of_tournaments() {
     return data.length;
 }
 
-async function get_user_by_id(id) {
+export async function get_user_by_id(id) {
     let response = await fetch(path + 'user/', { headers : headers });
     let data = await response.json();
     for (let i = 0; i < data.length; i++) {
@@ -71,7 +70,7 @@ async function get_user_by_id(id) {
     throw "User not found";
 }
 
-async function get_tournament_by_id(id) {
+export async function get_tournament_by_id(id) {
     let response = await fetch(path + 'tournament/' + id, { headers : headers });
     if (response.status == 404)
         throw "Tournament not found";
@@ -81,7 +80,7 @@ async function get_tournament_by_id(id) {
     return data;
 }
 
-async function get_all_matches_of_user(id) {
+export async function get_all_matches_of_user(id) {
     let response = await fetch(path + 'match/', { headers : headers });
     let data = await response.json();
     let matches = [];
@@ -95,7 +94,7 @@ async function get_all_matches_of_user(id) {
     return matches;
 }
 
-async function is_match_tournament(id) {
+export async function is_match_tournament(id) {
     let value = false;
     let response = await fetch(path + 'match/' + id, { headers : headers });
     if (response.status == 404)
@@ -109,7 +108,7 @@ async function is_match_tournament(id) {
 }
 
 
-async function get_all_matches_of_tournament(id) {
+export async function get_all_matches_of_tournament(id) {
     let response = await fetch(path + 'match/', { headers : headers });
     let data = await response.json();
     let matches = [];
@@ -123,7 +122,7 @@ async function get_all_matches_of_tournament(id) {
     return matches;
 }
 
-async function get_all_tournaments_from_creator(id) {
+export async function get_all_tournaments_from_creator(id) {
     let data = await get_all_tournament();
     let tournaments = [];
     for (let i = 0; i < data.length; i++) {
@@ -136,7 +135,7 @@ async function get_all_tournaments_from_creator(id) {
     return tournaments;
 }
 
-async function get_all_tournaments_confirm_of_user(id) {
+export async function get_all_tournaments_confirm_of_user(id) {
     let data = await get_all_tournament();
     let tournaments = [];
     for (let i = 0; i < data.length; i++) {
@@ -149,7 +148,7 @@ async function get_all_tournaments_confirm_of_user(id) {
     return tournaments;
 }
 
-async function get_all_tournaments_pending_of_user(id) {
+export async function get_all_tournaments_pending_of_user(id) {
     let data = await get_all_tournament();
     let tournaments = [];
     for (let i = 0; i < data.length; i++) {
@@ -162,7 +161,7 @@ async function get_all_tournaments_pending_of_user(id) {
     return tournaments;
 }
 
-async function get_all_users_of_tournament(id) {
+export async function get_all_users_of_tournament(id) {
     let data = await get_all_matches_of_tournament(id);
     let users = [];
     let usersID = [];
@@ -191,7 +190,7 @@ async function get_all_users_of_tournament(id) {
  * @param id L'id du match.
  * @return Un json contenant les informations du match.
  */
-async function get_match_by_id(id) {
+export async function get_match_by_id(id) {
     let response = await fetch(path + 'match/' + id, { headers : headers });
     if (response.status == 404)
         throw "Match not found";
@@ -201,7 +200,7 @@ async function get_match_by_id(id) {
     return data;
 }
 
-async function get_all_users_of_match(id) {
+export async function get_all_users_of_match(id) {
     let data = await get_match_by_id(id);
     let user1 = await get_user_by_id(data.player1);
     let user2 = await get_user_by_id(data.player2);
@@ -210,7 +209,7 @@ async function get_all_users_of_match(id) {
     return [user1, user2];
 }
 
-async function get_username_by_id(id) {
+export async function get_username_by_id(id) {
     let user = await get_user_by_id(id);
     if (debug)
         console.log(user.user.username);
@@ -218,7 +217,7 @@ async function get_username_by_id(id) {
 }
 
 
-async function get_nickname_by_id(id) {
+export async function get_nickname_by_id(id) {
     let user = await get_user_by_id(id);
     if (debug)
         console.log(user.user.username);
@@ -226,7 +225,7 @@ async function get_nickname_by_id(id) {
 }
 
 
-async function create_user(username, password) {
+export async function create_user(username, password) {
     let data = {
         "user": {
             "username": username,
@@ -249,7 +248,7 @@ async function create_user(username, password) {
 
 
 // TODO: Gerer les pending
-async function create_tournament(name, pending) {
+export async function create_tournament(name, pending) {
     let data = {
         "name": name,
         "pending": pending
@@ -268,7 +267,7 @@ async function create_tournament(name, pending) {
 }
 
 
-// async function confirm_tournament(id) {
+// export async function confirm_tournament(id) {
 //     let response = await fetch(path + 'tournament/' + id + '/confirm/', {
 //         method: 'POST',
 //         headers: headers,
@@ -281,7 +280,7 @@ async function create_tournament(name, pending) {
 // }
 
 
-async function create_match(player1, player2, tournament) {
+export async function create_match(player1, player2, tournament) {
     let data = {
         "tournament": tournament,
         "player1": player1,
@@ -306,7 +305,7 @@ create_match(1, 2, 1)
 //  * @param id L'id du match.
 //  * @return 1  si le match a ete supprime, sinon 0.
 //  */
-// async function delete_match(id) {
+// export async function delete_match(id) {
 //     let response = await fetch(path + 'match/' + id + '/', {
 //         method: 'DELETE',
 //         headers: headers
@@ -316,8 +315,5 @@ create_match(1, 2, 1)
 //         console.log(match);
 //     return match;
 // }
-
-
-
 
 
