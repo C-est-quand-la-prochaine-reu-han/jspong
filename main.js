@@ -275,19 +275,6 @@ export async function create_tournament(name, pending) {
 }
 
 
-// export async function confirm_tournament(id) {
-//     let response = await fetch(path + 'tournament/' + id + '/confirm/', {
-//         method: 'POST',
-//         headers: headers,
-//         body: JSON.stringify(data)
-//     });
-//     let tournament = await response.json();
-//     if (debug)
-//         console.log(tournament);
-//     return tournament;
-// }
-
-
 export async function create_match(player1, player2, tournament) {
     let data = {
         "tournament": tournament,
@@ -304,22 +291,3 @@ export async function create_match(player1, player2, tournament) {
         console.log(match);
     return match;
 }
-
-// /**
-//  * @brief Delete un match par son id.
-//  * 
-//  * @param id L'id du match.
-//  * @return 1  si le match a ete supprime, sinon 0.
-//  */
-// export async function delete_match(id) {
-//     let response = await fetch(path + 'match/' + id + '/', {
-//         method: 'DELETE',
-//         headers: headers
-//     });
-//     let match = await response.json();
-//     if (debug)
-//         console.log(match);
-//     return match;
-// }
-
-
