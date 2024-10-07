@@ -1,6 +1,6 @@
-let token = "9e81fbfd3c32255e0393b64ecd6f76e5267a0262"
-let path = "http://localhost:8000/appong/api/"
-let debug = true
+let token = "9e81fbfd3c32255e0393b64ecd6f76e5267a0262";
+let path = "http://localhost:8000/appong/api/";
+let debug = false;
 
 
 let headers = {
@@ -18,6 +18,14 @@ export async function get() {
 
 export async function get_all_users() {
     let response = await fetch(path + 'user/', { headers : headers });
+    let data = await response.json();
+    if (debug)
+        console.log(data);
+    return data;
+}
+
+export async function get_dashboard() {
+    let response = await fetch(path + 'dashboard/', { headers : headers });
     let data = await response.json();
     if (debug)
         console.log(data);
