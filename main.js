@@ -305,8 +305,6 @@ export async function create_match(player1, player2, tournament) {
     return match;
 }
 
-create_match(1, 2, 1)
-
 // /**
 //  * @brief Delete un match par son id.
 //  * 
