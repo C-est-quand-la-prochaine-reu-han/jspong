@@ -232,14 +232,6 @@ export async function get_nickname_by_id(id) {
     return user.user.user_nick;
 }
 
-// {
-//     "user": {
-//         "username": "banana",
-//         "password": "Thisisapassword"
-//     },
-//     "user_nick": "banana"
-// }
-
 export async function login(username, password) {
     let data = {
         "username": username,
@@ -257,6 +249,8 @@ export async function login(username, password) {
         console.log(user);
     return user;
 }
+
+
 
 export async function create_user(username, user_nick, password) {
     let data = {
@@ -278,8 +272,6 @@ export async function create_user(username, user_nick, password) {
         console.log(user);
     return user;
 }
-
-
 // TODO: Gerer les pending
 export async function create_tournament(name, pending) {
     let data = {
@@ -316,3 +308,15 @@ export async function create_match(player1, player2, tournament) {
         console.log(match);
     return match;
 }
+
+export async function delete_user(id) {
+    let response = await fetch(path + 'user/' + id, {
+        method: 'DELETE',
+        headers: headers
+    });
+    if (response.status != 204)
+        throw "Problem with the deletion of the user (" + response.status + ")";
+    return true;
+}
+
+
