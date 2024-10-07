@@ -232,14 +232,33 @@ export async function get_nickname_by_id(id) {
     return user.user.user_nick;
 }
 
+export async function login(username, password) {
+    let data = {
+        "username": username,
+        "password": password
+    };    
+    let response = await fetch(path + 'user/', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+    });
+    if (response.status != 200)
+        throw "Problem with the creation of the user (" + response.status + ")";
+    let user = await response.json();
+    if (debug)
+        console.log(user);
+    return user;
+}
 
-export async function create_user(username, password) {
+
+
+export async function create_user(username, user_nick, password) {
     let data = {
         "user": {
             "username": username,
             "password": password
         },
-        "user_nick": username
+        "user_nick": user_nick
     };    
     let response = await fetch(path + 'user/', {
         method: 'POST',
@@ -253,8 +272,6 @@ export async function create_user(username, password) {
         console.log(user);
     return user;
 }
-
-
 // TODO: Gerer les pending
 export async function create_tournament(name, pending) {
     let data = {
@@ -291,3 +308,15 @@ export async function create_match(player1, player2, tournament) {
         console.log(match);
     return match;
 }
+
+export async function delete_user(id) {
+    let response = await fetch(path + 'user/' + id, {
+        method: 'DELETE',
+        headers: headers
+    });
+    if (response.status != 204)
+        throw "Problem with the deletion of the user (" + response.status + ")";
+    return true;
+}
+
+
