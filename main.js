@@ -232,14 +232,39 @@ export async function get_nickname_by_id(id) {
     return user.user.user_nick;
 }
 
+// {
+//     "user": {
+//         "username": "banana",
+//         "password": "Thisisapassword"
+//     },
+//     "user_nick": "banana"
+// }
 
-export async function create_user(username, password) {
+export async function login(username, password) {
+    let data = {
+        "username": username,
+        "password": password
+    };    
+    let response = await fetch(path + 'user/', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+    });
+    if (response.status != 200)
+        throw "Problem with the creation of the user (" + response.status + ")";
+    let user = await response.json();
+    if (debug)
+        console.log(user);
+    return user;
+}
+
+export async function create_user(username, user_nick, password) {
     let data = {
         "user": {
             "username": username,
             "password": password
         },
-        "user_nick": username
+        "user_nick": user_nick
     };    
     let response = await fetch(path + 'user/', {
         method: 'POST',
